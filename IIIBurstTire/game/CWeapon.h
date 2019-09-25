@@ -1,0 +1,43 @@
+#pragma once
+#include "..\address.h"
+
+enum eWeaponType
+{
+  WEAPONTYPE_UNARMED = 0x0,
+  WEAPONTYPE_BASEBALLBAT = 0x1,
+  WEAPONTYPE_COLT45 = 0x2,
+  WEAPONTYPE_UZI = 0x3,
+  WEAPONTYPE_SHOTGUN = 0x4,
+  WEAPONTYPE_AK47 = 0x5,
+  WEAPONTYPE_M16 = 0x6,
+  WEAPONTYPE_SNIPERRIFLE = 0x7,
+  WEAPONTYPE_ROCKETLAUNCHER = 0x8,
+  WEAPONTYPE_FLAMETHROWER = 0x9,
+  WEAPONTYPE_MOLOTOV = 0xA,
+  WEAPONTYPE_GRENADE = 0xB,
+  WEAPONTYPE_DETONATOR = 0xC,
+  WEAPONTYPE_HELICANNON = 0xD,
+  WEAPONTYPE_LAST_WEAPONTYPE = 0xE,
+  WEAPONTYPE_ARMOUR = 0xF,
+  WEAPONTYPE_RAMMEDBYCAR = 0x10,
+  WEAPONTYPE_RUNOVERBYCAR = 0x11,
+  WEAPONTYPE_EXPLOSION = 0x12,
+  WEAPONTYPE_UZI_DRIVEBY = 0x13,
+  WEAPONTYPE_DROWNING = 0x14,
+  WEAPONTYPE_FALL = 0x15,
+  WEAPONTYPE_UNIDENTIFIED = 0x16,
+  _WEAPONTYPE_23 = 0x17,
+};
+
+
+class CWeapon
+{
+public:
+  eWeaponType m_Type;
+  unsigned __int32 m_nState;
+  unsigned __int32 m_nAmmoInClip;
+  unsigned __int32 m_nTotalAmmo;
+  unsigned __int32 m_nTimeForNextShot;
+  char m_bAddRotOffset;
+  char _pad0[3];
+};
