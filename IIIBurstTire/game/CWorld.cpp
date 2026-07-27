@@ -26,3 +26,23 @@ float CWorld::FindGroundZFor3DCoord(float x, float y, float z, bool* bOut)
 {
 	return ((float (__cdecl *)(float, float, float, bool*))AddressByVersion(0x4B3AE0, 0x4B3BD0, 0x4B3B60))(x, y, z, bOut);
 }
+
+void CWorld::Add(CEntity* pEntity)
+{
+	((void (__cdecl *)(CEntity*))AddressByVersion(0x4AE930, 0x4AEA20, 0x4AE9B0))(pEntity);
+}
+
+void CWorld::Remove(CEntity* pEntity)
+{
+	((void (__cdecl *)(CEntity*))AddressByVersion(0x4AE9D0, 0x4AEAC0, 0x4AEA50))(pEntity);
+}
+
+void CWorld::FindObjectsInRange(CVector const& point, float radius, bool b2D, short* outCount, short maxCount, CEntity** outEntities, bool buildings, bool vehicles, bool peds, bool objects, bool dummies)
+{
+	((void (__cdecl *)(CVector const&, float, bool, short*, short, CEntity**, bool, bool, bool, bool, bool))AddressByVersion(0x4B2200, 0x4B22F0, 0x4B2280))(point, radius, b2D, outCount, maxCount, outEntities, buildings, vehicles, peds, objects, dummies);
+}
+
+CEntity* CWorld::TestSphereAgainstWorld(CVector a1, float a2, CEntity* a3, bool a4, bool a5, bool a6, bool a7, bool a8, bool a9)
+{
+	return ((CEntity* (__cdecl *)(CVector, float, CEntity*, bool, bool, bool, bool, bool, bool))AddressByVersion(0x4B4710, 0x4B4800, 0x4B4790))(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+}

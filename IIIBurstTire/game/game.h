@@ -13,9 +13,11 @@
 #include "CTimer.h"
 #include "CColModel.h"
 #include "CBaseModelInfo.h"
-#include "CAutomobile.h"
 #include "CPed.h"
+#include "CCopPed.h"
+#include "CAutomobile.h"
 #include "CBoat.h"
+#include "CObject.h"
 #include "CFileMgr.h"
 #include "cDMAudio.h"
 #include "CModelInfo.h"
@@ -29,6 +31,13 @@
 #include "CCollision.h"
 #include "cAudioManager.h"
 #include "cSampleManager.h"
+#include "CGlass.h"
+#include "CTimeCycle.h"
+#include "CAnimManager.h"
+#include "CPools.h"
+#include "CCarCtrl.h"
+#include "CDarkel.h"
+#include "eModelID.h"
 
 
 #define RsGlobal (*(RsGlobalType *)ADDR_RSGLOBAL)
@@ -44,3 +53,6 @@ static CAnimBlendAssociation *RpAnimBlendClumpGetAssociation(RpClump *pClump, un
 {
 	return ((CAnimBlendAssociation *(__cdecl *)(RpClump *, unsigned int))AddressByVersion(0x4055C0, 0x4055C0, 0x4055C0))(pClump, AnimId);
 }
+
+static   CPlayerPed *(__cdecl *FindPlayerPed)() = (CPlayerPed *(__cdecl *)())FUNC_FINDPLAYERPED;
+static   CVehicle *(__cdecl *FindPlayerVehicle)() = (CVehicle *(__cdecl *)())FUNC_FINDPLAYERVEHICLE;

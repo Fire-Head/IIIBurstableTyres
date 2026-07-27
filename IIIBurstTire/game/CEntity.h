@@ -1,5 +1,4 @@
 #pragma once
-#include <windows.h>
 #include "CPlaceable.h"
 #include "RenderWare.h"
 #include "CRect.h"
@@ -144,6 +143,16 @@ public:
 	
 	CEntity();
 	virtual ~CEntity();
+	
+	void RegisterReference(CEntity **Ent)
+	{
+		((void (__thiscall *)(CEntity *, CEntity **))AddressByVersion(0x4A7480, 0x4A7570, 0x4A7500))(this, Ent);
+	}
+	
+	void SetModelIndex(unsigned int mi)
+	{
+		((void (__thiscall *)(CEntity*, unsigned int))FUNCVMT(3))(this, mi);
+	}
 };
 
 VALIDATE_SIZE(CEntity, 0x64);

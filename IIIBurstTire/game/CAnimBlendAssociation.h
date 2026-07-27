@@ -78,4 +78,7 @@ public:
 
 	CAnimBlendAssociation();
 	virtual ~CAnimBlendAssociation(); //__vecDelDtor
+	
+	void SetDeleteCallback(void (*callback)(CAnimBlendAssociation *, void *), void* entity);
+	void SetFinishCallback(void (*callback)(CAnimBlendAssociation *, void *), void* entity);
 };

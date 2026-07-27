@@ -84,6 +84,30 @@ int AddressByVersion(unsigned int _1_0, unsigned int _1_1, unsigned int _Steam)
 	return -1;
 }
 
+void *FunctionByVersion(void * _1_0, void * _1_1, void * _Steam)
+{
+    if (bAutoVersionCheck && nVersion == -1)
+    {
+        GetGameVersion();
+    }
+
+    switch ( nVersion )
+    {
+        case GTA_3_1_0:
+           return _1_0;
+           break;
+        case GTA_3_1_1:
+           return _1_1;
+           break;
+        case GTA_3_Steam:
+           return _Steam;
+           break;
+    }
+
+	__asm int 3
+	return NULL;
+}
+
 bool IsGTAIII()
 {
 	eGame Ver = (eGame)getGameVersion();

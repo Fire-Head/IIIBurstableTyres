@@ -113,5 +113,8 @@ public:
 	CStoredCollPoly m_aCollPolys[2];
 	Float m_fSteeringRatio;
 	eVehicleType m_eVehicleType;
+	
+	void ProcessOpenDoor(unsigned int arg0, unsigned int arg1, float arg2);
+	bool IsUpsideDown();
 };
 VALIDATE_SIZE(CVehicle, 0x288);

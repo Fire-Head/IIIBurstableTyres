@@ -1,5 +1,4 @@
 #pragma once
-#include <Windows.h>
 #include <math.h> 
 #include "RenderWare.h"
 #include "CVector2D.h"
@@ -78,7 +77,7 @@ public:
 	
 	Float Magnitude2D() const
 	{
-		return sqrt(MagnitudeSqr());
+		return sqrt(Magnitude2DSqr());
 	}
 	
 	
@@ -172,9 +171,18 @@ public:
     {
         return CVector(-x, -y, -z);
     }
+	
+	float Heading(void) const { return atan2f(-x, y); }
 };
 
 extern CVector CrossProduct(const CVector& first, const CVector& second);
+
+inline float
+CrossProduct2D(const CVector2D &v1, const CVector2D &v2)
+{
+	return v1.x*v2.y - v1.y*v2.x;
+}
+
 //extern CVector operator*(CMatrix const& matrix, CVector const& vector);
 
 Float DotProduct(CVector const &refA, CVector const &refB);

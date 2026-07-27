@@ -1,5 +1,4 @@
 #pragma once
-#include <windows.h>
 #include "CVector.h"
 #include "RenderWare.h"
 #include "..\address.h"
@@ -25,10 +24,10 @@ public:
 		return pos;
 	}
 	
-	CVector &GetRight()
-	{
-		return right;
-	}
+	CVector &GetPosition(void) { return pos; }
+	CVector &GetRight(void) { return right; }
+	CVector &GetForward(void) { return up; }
+	CVector &GetUp(void) { return at; }
 	
 	//
 	CMatrix()
@@ -41,6 +40,9 @@ public:
 	~CMatrix(); 
 	
 	void Attach(RwMatrix *matrix, bool temporary);
+	void SetRotate(float x, float y, float z);
 };
 
 extern CMatrix Invert(CMatrix const& in);
+extern void Invert(CMatrix const& in, CMatrix&out);
+extern CVector Multiply3x3(CMatrix const& m, CVector const& v);

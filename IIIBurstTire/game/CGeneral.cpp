@@ -16,3 +16,8 @@ int CGeneral::GetRandomNumber()
 {
 	return ((int (__cdecl *)())AddressByVersion(0x54A4B0, 0x54A6B0, 0x54A660))();
 }
+
+float CGeneral::LimitRadianAngle(float angle)
+{
+	return ((float (__cdecl *)(float))AddressByVersion(0x48CB90, 0x48CC90, 0x48CC20))(angle);
+}

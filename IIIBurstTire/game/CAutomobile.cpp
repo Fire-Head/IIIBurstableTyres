@@ -15,6 +15,15 @@ int CDamageManager::GetWheelStatus(int a1)
 	return ((int (__thiscall *)(CDamageManager*, int))AddressByVersion(0x545910, 0X545B10, 0X545AC0))(this, a1);
 }
 
+bool CDamageManager::ProgressPanelDamage(unsigned char a1)
+{
+	return ((bool (__thiscall *)(CDamageManager*, unsigned char))AddressByVersion(0x545A00, 0x545C00, 0x545BB0))(this, a1);
+}
+
+int CDamageManager::GetPanelStatus(int a1)
+{
+	return ((int (__thiscall *)(CDamageManager*, int))AddressByVersion(0x5458E0, 0x545AE0, 0x545A90))(this, a1);
+}
 
 // Converted from bool __thiscall CDamageManager::ProgressWheelDamage(unsigned char wheel) 0x545A40
 bool CDamageManager::ProgressWheelDamage(unsigned char wheel)
@@ -30,4 +39,9 @@ bool CAutomobile::SetUpWheelColModel(class CColModel* wheelCol)
 void CAutomobile::BurstTyre(unsigned char tyreComponentId)
 {
 	((void (__thiscall *)(CAutomobile *, unsigned char))FUNCVMT(31))(this, tyreComponentId);
+}
+
+void CAutomobile::SetPanelDamage(int a1, ePanels a2, bool a3)
+{
+	((void (__thiscall *)(CAutomobile*, int, ePanels, bool))AddressByVersion(0x5301A0, 0x5303E0, 0x530370))(this, a1, a2, a3);
 }

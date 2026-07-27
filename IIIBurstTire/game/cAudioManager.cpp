@@ -1,6 +1,6 @@
 #include "cAudioManager.h"
 
-cAudioManager &AudioManager = *(cAudioManager*)0x880FC0;
+cAudioManager &AudioManager = *(cAudioManager*)AddressByVersion(0x880FC0, 0x880F70, 0x8910B0);
 
 // Converted from float __thiscall cAudioManager::GetDistanceSquared(CVector const &vec) 0x569750
 float cAudioManager::GetDistanceSquared(CVector const& vec)
@@ -34,5 +34,5 @@ void cAudioManager::AddSampleToRequestedQueue()
 
 void cAudioManager::ProcessLoopingScriptObject(unsigned char a1)
 {
-	((void (__thiscall *)(cAudioManager*, unsigned char))0x576770)(this, a1);
+	((void (__thiscall *)(cAudioManager*, unsigned char))AddressByVersion(0x576770, 0x576AC0, 0x5769C0))(this, a1);
 }

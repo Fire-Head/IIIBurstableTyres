@@ -21,6 +21,7 @@ DWORD getModuleEntryPointAddress(HANDLE hModule);
 DWORD getGameVersion(HANDLE hModule = NULL);
 eGame GetGameVersion();
 int AddressByVersion(unsigned int _1_0, unsigned int _1_1, unsigned int _Steam);
+void *FunctionByVersion(void * _1_0, void * _1_1, void * _Steam);
 bool IsGTAIII();
 bool IsVersion_1_0();
 bool IsVersion_1_1();

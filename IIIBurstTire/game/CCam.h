@@ -101,5 +101,9 @@ public:
 	char m_bFirstPersonRunAboutActive;
 	char _pad1[3];
 
+	bool Using3rdPersonMouseCam()
+	{
+		return ((bool (__thiscall *)(CCam*))AddressByVersion(0x457460, 0x457460, 0x457460))(this);
+	}
 };
 #pragma pack(pop)

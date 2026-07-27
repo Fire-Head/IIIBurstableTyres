@@ -45,7 +45,7 @@
     <TargetExt>.asi</TargetExt>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <TargetName>IIIBurstableTyres</TargetName>
-    <IncludePath>.\IIIBurstTire\game\RW33\include;$(IncludePath)</IncludePath>
+    <IncludePath>.\game\RW33\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

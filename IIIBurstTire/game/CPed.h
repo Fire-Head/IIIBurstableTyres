@@ -1,5 +1,4 @@
 #pragma once
-#include <windows.h>
 #include "CPhysical.h"
 #include "CVehicle.h"
 #include "CWeapon.h"
@@ -9,6 +8,7 @@
 #include "..\address.h"
 #include "CStoredCollPoly.h"
 #include "CAnimBlendAssociation.h"
+#include "CAnimManager.h"
 
 enum eMoveState
 {
@@ -20,8 +20,6 @@ enum eMoveState
   PEDMOVE_SPRINT = 0x5,
   PEDMOVE_THROWN = 0x6,
 };
-
-typedef int AnimationId;
 
 enum eObjective
 {
@@ -187,19 +185,25 @@ enum eFormation
 struct CPathNode
 {
   CVector m_vecPoint;
-  unsigned int field_C;
-  unsigned int field_10;
-  unsigned __int16 field_14;
-  unsigned __int16 field_16;
-  unsigned __int16 field_18;
-  unsigned __int8 m_bFlags;
-  unsigned __int8 field_1B;
-  unsigned __int8 m_bNumFloodFillGroups;
+	CPathNode *prev;
+	CPathNode *next;
+	__int16 distance;
+	__int16 objectIndex;
+	__int16 firstLink;
+  
+  unsigned __int8 numLinks;
+  unsigned __int8 flags;
+  unsigned __int8 group;
+  
   unsigned __int8 field_1D;
   unsigned __int8 field_1E;
   unsigned __int8 field_1F;
+  
+  CVector GetPosition() { return m_vecPoint; }
 };
 #pragma pack(pop)
+
+VALIDATE_SIZE(CPathNode, 0x20);
 
 #pragma pack(push, 1)
 struct CAccident
@@ -443,6 +447,33 @@ CStoredCollPoly m_pCollPoly;
 	{
 		return ((bool (__thiscall *)(CPed*))AddressByVersion(0x4CE730, 0x4CE7D0, 0x4CE760))(this);
 	}
+	
+	void SetMoveState(eMoveState state);
+	
+	void SetObjective(eObjective objective, void* entity);
+	
+	void SetRadioStation();
+	
+	void SetDie(int a, float b, float c);
+	
+	void SetIdle();
+	
+	void ReactToAttack(CEntity* pAttackEntity);
+	
+	bool IsPedInControl();
+	
+	void ClearAimFlag();
+	void ClearLookFlag();
+	
+	void SetExitCar(CVehicle* pVehicle, unsigned int arg1);
+	void SetBeingDraggedFromCar(CVehicle* pVehicle, unsigned int nEnterType, bool arg2);
+	
+	void RestorePreviousObjective();
+	void RestorePreviousState();
+	bool SetWanderPath(signed char headDir);
+	
+	static void PedSetDraggedOutCarPositionCB(CAnimBlendAssociation* asoc, void* entity);
+	static void PedSetOutCarCB(CAnimBlendAssociation* asoc, void* entity);
 };
 
 VALIDATE_SIZE(CPed, 0x53C);

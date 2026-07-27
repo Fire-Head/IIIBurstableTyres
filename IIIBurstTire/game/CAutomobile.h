@@ -1,5 +1,4 @@
 #pragma once
-#include <Windows.h>
 #include "..\address.h"
 #include "CVehicle.h"
 #include "CVector.h"
@@ -24,6 +23,9 @@ public:
 	void SetWheelStatus(int wheel, unsigned int status);
 	void SetEngineStatus(unsigned int status);
 	bool ProgressWheelDamage(unsigned char wheel);
+
+	int GetPanelStatus(int a1);
+	bool ProgressPanelDamage(unsigned char a1);
 };
 
 class CDoor
@@ -157,6 +159,7 @@ public:
 	virtual ~CAutomobile();
 	bool SetUpWheelColModel(class CColModel* wheelCol);
 	void BurstTyre(unsigned char tyreComponentId);
+	void SetPanelDamage(int a1, ePanels a2, bool a3);
 };
 
 VALIDATE_SIZE(CAutomobile, 0x5A8);

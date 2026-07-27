@@ -82,6 +82,15 @@ public:
 	
 }settings;
 
+CBaseModelInfo *getModelInfoPtrs(unsigned int id)
+{
+	//CBaseModelInfo **CModelInfo::ms_modelInfoPtrs = (CBaseModelInfo **)AddressByVersion(0x83D408, 0x83D408, 0x84D548);
+	
+	CBaseModelInfo ***_modelInfoPtrs = (CBaseModelInfo ***)(AddressByVersion(0x50B870, 0x50B960, 0x50B8F0) + 3);
+		
+	return (*_modelInfoPtrs)[id];
+}
+
 CVector vecFirePos(0.0f, 0.0f, 0.0f);
 
 Bool __cdecl CAN_BURST_CAR_TYRES_Func(CAutomobile *This)
@@ -293,7 +302,7 @@ Bool __cdecl _ProcessLineOfSightPatch(CVector const& origin, CVector const& targ
 
 Bool __fastcall __SetUpWheelColModel(CAutomobile *This, int edx0, CColModel *wheelCol)
 {
-	CVehicleModelInfo *vehModel = (CVehicleModelInfo *)CModelInfo::ms_modelInfoPtrs[This->m_nModelIndex];
+	CVehicleModelInfo *vehModel = (CVehicleModelInfo *)getModelInfoPtrs(This->m_nModelIndex);
 	
 	if ( This->m_eVehicleType != VEHICLETYPE_CAR )
 		return false;
@@ -343,7 +352,7 @@ CColModel * __cdecl GetPedColModel_Func(CPed *pPed)
 	if ( pPed->UseGroundColModel() )
 		return &CTempColModels::ms_colModelPedGroundHit;
 	else
-		return ((CPedModelInfo *)CModelInfo::ms_modelInfoPtrs[pPed->m_nModelIndex])->m_pHitColModel;
+		return ((CPedModelInfo *)getModelInfoPtrs(pPed->m_nModelIndex))->m_pHitColModel;
 }
 
 typedef CColModel *( __cdecl *t_GetPedColModel_FuncCB)(CPed *pPed);
@@ -354,9 +363,12 @@ CColModel *__cdecl GetPedColModel(CPed *pPed)
 	return GetPedColModelCB(pPed);	
 }
 
+Bool bIncludeBikers = true;
+
 Bool __cdecl _ProcessLineOfSightSectorList_Func(CPtrList &ptrList, CColLine const &colLine, CColPoint &outColPoint, float &maxTouchDistance, CEntity *&outEntity, Bool doSeeThroughCheck, Bool doIgnoreCameraCheck)
 {
 	Bool bDeadPeds = false;
+	Bool bBikers = false;
 	float newTouchDist = maxTouchDistance;
 
 	Bool bCarTyres = false;
@@ -366,6 +378,9 @@ Bool __cdecl _ProcessLineOfSightSectorList_Func(CPtrList &ptrList, CColLine cons
 	
 	if ( ptrList.m_pNode && CWorld::bIncludeDeadPeds && ptrList.m_pNode->pEntity->m_nType == 3 )
 		bDeadPeds = true;
+	
+	if ( ptrList.m_pNode && bIncludeBikers && ptrList.m_pNode->pEntity->m_nType == 3 )
+		bBikers = true;
 
 	if ( ptrList.m_pNode && CWorld::bIncludeCarTyres && ptrList.m_pNode->pEntity->m_nType == 2 )
 	{
@@ -387,7 +402,7 @@ Bool __cdecl _ProcessLineOfSightSectorList_Func(CPtrList &ptrList, CColLine cons
 
 		if ( scanCode != CWorld::ms_nCurrentScanCode
 			&& entity != CWorld::pIgnoreEntity
-			&& (entity->m_bUsesCollision || bDeadPeds) )
+			&& (entity->m_bUsesCollision || bDeadPeds || bBikers) )
 		{
 			if ( !doIgnoreCameraCheck || !CWorld::CameraToIgnoreThisObject(entity) )
 			{
@@ -399,14 +414,16 @@ Bool __cdecl _ProcessLineOfSightSectorList_Func(CPtrList &ptrList, CColLine cons
 				
 				if ( entity->m_nType == 3 )
 				{
-					if ( entity->m_bUsesCollision || bDeadPeds && ((CPed *)entity)->m_nPedState == 49 )
+					if ( entity->m_bUsesCollision
+						|| bDeadPeds && ((CPed *)entity)->m_nPedState == 49 
+						|| bBikers && ((CPed*)entity)->m_bInVehicle && ((CPed*)entity)->m_pVehicle->m_eVehicleType == VEHICLETYPE_BIKE )
 					{
 						model = GetPedColModel((CPed *)entity);
 						/*
 						if ( ((CPed *)entity)->UseGroundColModel() )
 							model = &CTempColModels::ms_colModelPedGroundHit;
 						else
-							model = ((CPedModelInfo *)CModelInfo::ms_modelInfoPtrs[entity->m_nModelIndex])->m_pHitColModel;
+							model = ((CPedModelInfo *)getModelInfoPtrs(entity->m_nModelIndex))->m_pHitColModel;
 						*/
 					}
 					else
@@ -414,7 +431,7 @@ Bool __cdecl _ProcessLineOfSightSectorList_Func(CPtrList &ptrList, CColLine cons
 				}
 				else if ( entity->m_bUsesCollision )
 				{
-					model = ((CBaseModelInfo *)CModelInfo::ms_modelInfoPtrs[entity->m_nModelIndex])->m_pColModel;
+					model = ((CBaseModelInfo *)getModelInfoPtrs(entity->m_nModelIndex))->m_pColModel;
 				}
 
 				if ( model && CCollision::ProcessLineOfSight(colLine, entity->m_sCoords, *model, outColPoint, newTouchDist, doSeeThroughCheck) )
@@ -1210,5 +1227,15 @@ namespace BurstableTyres
 	tCAN_BURST_CAR_TYRESCB EXP Get_CAN_BURST_CAR_TYRES_CallBack()
 	{
 		return CAN_BURST_CAR_TYRESCB;
+	}
+	
+	void EXP Set_IncludeBikers(Bool b)
+	{
+		bIncludeBikers = b;
+	}
+	
+	Bool EXP Get_IncludeBikers()
+	{
+		return bIncludeBikers;
 	}
 };

@@ -26,3 +26,8 @@ static const tDummy dummy_func;
 #define ADDR_RWENGINEINSTANCE                                    AddressByVersion(0x661228, 0x661228, 0x671248)
 //#define ADDR_ID3D8                                               0x662EFC //Test
 #define ADDR_PPARAMS                                             AddressByVersion(0x943010, 0x9431C8, 0x953308)
+
+#define ADDR_THECAMERA                                           AddressByVersion(0x6FACF8, 0x6FACF8, 0x70AE38)
+
+#define FUNC_FINDPLAYERPED                                       AddressByVersion(0x4A1150, 0x4A1240, 0x4A11D0)
+#define FUNC_FINDPLAYERVEHICLE                                   AddressByVersion(0x4A10C0, 0x4A11B0, 0x4A1140)
