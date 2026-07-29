@@ -1136,6 +1136,13 @@ void __fastcall __SetWheelStatus1(CDamageManager *This, int edx0, int a2, unsign
 	*/
 }
 
+void __fastcall _Fix(CDamageManager *This, int edx0)
+{
+	((void (__thiscall *)(CDamageManager*))AddressByVersion(0x545850, 0x545A50, 0x545A00))(This);
+	This->m_fWheelDamageEffect = 0.75f;
+	(*(unsigned char *)&This->field_18) = 1;
+}
+
 void __fastcall HealthCheatFix(CDamageManager *This, int edx0, unsigned int status)
 {
 	This->SetEngineStatus(status);
@@ -1187,6 +1194,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 
 		//
 		CPatch::RedirectCall(AddressByVersion(0x490ECD, 0x490F8D, 0x490F1D), HealthCheatFix);
+		CPatch::RedirectCall(AddressByVersion(0x53C24D, 0x53C48D, 0x53C43D), _Fix);
 #if 0		
 		//test
 		CPatch::RedirectCall(AddressByVersion(0x53C116, 0x53C356, 0x53C306), __GetWheelStatus1);
