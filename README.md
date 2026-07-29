@@ -24,6 +24,9 @@ IIIBurstableTyres is a plugin that brings the tyre popping feature from Vice Cit
 7. Run `audimp.exe`.
 8. Copy modified `sfx.RAW/SDT` to your `GTAIII/audio` directory or a subdirectory inside the `modloader/`.
 
+> [!NOTE]
+> The plugin doesn't require ASI loader, but supports it!
+
 # Supported game versions
 * gta3.exe v1.0.
 * gta3.exe v1.1.
